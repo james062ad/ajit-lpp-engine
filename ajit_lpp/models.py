@@ -22,7 +22,7 @@ from typing import Any
 
 
 SCHEMA_VERSION = "ajit.facts/1"
-RULESET_VERSION = "au.lpp/0.1"
+RULESET_VERSION = "au.lpp/0.2"
 
 
 class Tri(str, Enum):
@@ -98,6 +98,10 @@ class DocumentFacts:
 
     # --- Purpose (evaluative — proposer fills, rules never trust alone) ---
     asserted_limb: Limb = Limb.NOT_ASSERTED
+    # Pratt Holdings (2004) 136 FCR 357: a third-party agent's document can
+    # attract advice-limb privilege where brought into existence for provision
+    # to the client's lawyer. Recordable fact, not an inference.
+    prepared_for_provision_to_lawyer: Tri = Tri.UNKNOWN
     litigation_on_foot_or_anticipated: Tri = Tri.UNKNOWN
     proposed_dominant_purpose: str = ""  # free text from proposer
     proposer_confidence: float = 0.0  # 0.0-1.0; advisory only

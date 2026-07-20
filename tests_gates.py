@@ -191,9 +191,69 @@ def gate_rule_behaviour() -> None:
 # ----------------------------------------------------------- stubbed gates
 
 def gate_golden_set() -> None:
-    print("\nGate 1 — golden set, rules alone (BLOCKED)")
-    print("  BLOCKED  requires privilege_goldenset_AU_ch3_worklist.csv, filled")
-    print("           from the judgments; 15 rows, expert_validated != pending")
+    csv_path = Path(__file__).parent / "data" / "goldenset" / "privilege_goldenset_AU_ch3_worklist.csv"
+    print("\nGate 1 — golden set, rules alone")
+    if not csv_path.exists():
+        print("  SKIP  worklist CSV not found at data/goldenset/")
+        return
+
+    from ajit_lpp.goldenset import load_goldenset, all_pending
+    from ajit_lpp.golden_facts_au import fixtures_by_case
+
+    rows = load_goldenset(csv_path)
+    fixtures = fixtures_by_case()
+
+    held = [r for r in rows if r.row_type != "scorable"]
+    scorable = [r for r in rows if r.row_type == "scorable"]
+
+    for r in held:
+        print(f"  HELD  {r.id}: {r.held_out_reason}")
+
+    matches, boundary, wrong, unfixtured = [], [], [], []
+    for r in scorable:
+        fx = fixtures.get(r.id)
+        if fx is None:
+            unfixtured.append(r.id)
+            continue
+        if fx.court != r.determination:
+            print(f"  FAIL  {r.id}: fixture court outcome '{fx.court}' != CSV determination '{r.determination}'")
+            FAILURES.append(f"gate1-{r.id}-mismatch")
+            continue
+        got = classify(fx.facts).disposition.value
+        if got == fx.court:
+            matches.append(r.id)
+            print(f"  MATCH {r.id}: engine == court == {got}")
+        elif got == fx.engine == "hitl_required":
+            boundary.append(r.id)
+            print(f"  DECLINED {r.id}: court={fx.court}, engine=hitl_required (expected — evaluative boundary)")
+        elif got != fx.engine:
+            wrong.append(r.id)
+            print(f"  FAIL  {r.id}: engine={got}, expected engine behaviour={fx.engine}, court={fx.court}")
+            FAILURES.append(f"gate1-{r.id}")
+        else:
+            wrong.append(r.id)
+            print(f"  FAIL  {r.id}: engine={got} contradicts court={fx.court} outside an expected boundary")
+            FAILURES.append(f"gate1-{r.id}")
+
+    for cid in unfixtured:
+        print(f"  NOFIX {cid}: scorable row has no facts fixture yet — write one in golden_facts_au.py")
+
+    # Probes: fixtures with no scored row (e.g. AU-C3-11b) still must behave.
+    for cid, fx in fixtures.items():
+        if any(r.id == cid for r in rows):
+            continue
+        got = classify(fx.facts).disposition.value
+        ok = got == fx.engine
+        check(f"probe {cid} behaves as specified ({fx.engine})", ok, got)
+
+    n = len(matches) + len(boundary) + len(wrong)
+    status = "PROVISIONAL — rows/fixtures unverified" if all_pending(rows) or any(
+        not fx.verified for fx in fixtures.values()
+    ) else "VALIDATED"
+    print(f"  ---- scored {n} of {len(rows)} rows ({len(held)} held out, {len(unfixtured)} unfixtured)")
+    print(f"  ---- matches={len(matches)} declined-at-boundary={len(boundary)} wrong={len(wrong)}")
+    print(f"  ---- status: {status}")
+    check("no scored case contradicts the court outside an expected boundary", not wrong)
 
 
 def gate_synthetic_taxonomy() -> None:

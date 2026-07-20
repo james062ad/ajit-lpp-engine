@@ -137,11 +137,29 @@ def r_party_01_lawyer_present(f: DocumentFacts) -> RuleOutcome | None:
         return None
     present = _has(f.parties, lambda p: p.is_lawyer)
     if present is Tri.NO:
+        # Pratt Holdings: absence of a lawyer as a party is not decisive where
+        # the document was brought into existence for provision to the
+        # client's lawyer. That fact must be RECORDED; if unknown, a human
+        # decides; only a recorded NO makes absence decisive.
+        if f.prepared_for_provision_to_lawyer is Tri.YES:
+            return None  # continue down the chain; purpose rules dispose
+        if f.prepared_for_provision_to_lawyer is Tri.UNKNOWN:
+            return _outcome(
+                "AU-PARTY-01",
+                Disposition.HITL_REQUIRED,
+                "No lawyer is a party, and whether the document was prepared "
+                "for provision to the client's lawyer is not recorded. Under "
+                "Pratt Holdings that possibility keeps the advice-limb claim "
+                "alive, so a human must determine it.",
+                PRATT,
+            )
         return _outcome(
             "AU-PARTY-01",
             Disposition.NOT_PRIVILEGED,
-            "No lawyer is a party to the communication, and the claim is made "
-            "on the legal advice limb.",
+            "No lawyer is a party to the communication, the claim is made on "
+            "the legal advice limb, and it is recorded that the document was "
+            "not prepared for provision to a lawyer.",
+            PRATT,
             decisive=True,
         )
     if present is Tri.UNKNOWN:
@@ -157,6 +175,10 @@ def r_party_02_legal_capacity(f: DocumentFacts) -> RuleOutcome | None:
     """A lawyer attracts privilege only when acting in that capacity. Capacity
     is a per-engagement record, not a job title."""
     if f.asserted_limb is not Limb.LEGAL_ADVICE:
+        return None
+    if _has(f.parties, lambda p: p.is_lawyer) is not Tri.YES:
+        # No lawyer party (e.g. the Pratt third-party-agent pattern): the
+        # capacity question does not arise. AU-PARTY-01 governs.
         return None
     capacity = _has(f.parties, lambda p: p.acting_in_legal_capacity)
     if capacity is Tri.NO:
