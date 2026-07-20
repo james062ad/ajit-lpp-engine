@@ -257,9 +257,127 @@ def gate_golden_set() -> None:
 
 
 def gate_synthetic_taxonomy() -> None:
-    print("\nGate 2 — 17-category synthetic taxonomy (BLOCKED)")
-    print("  BLOCKED  requires the synthetic corpus; every ambiguous category")
-    print("           must resolve to HITL_REQUIRED, not to a guess")
+    corpus = Path(__file__).parent / "data" / "corpus"
+    print("\nGate 2 — synthetic corpus")
+    matters = [d for d in corpus.iterdir() if d.is_dir()] if corpus.exists() else []
+    if not matters:
+        print("  SKIP  no matters under data/corpus/ — copy a synthetic mailbox in:")
+        print("        cp -r om_privilege_project/mailboxes/CUB-v-CoT data/corpus/")
+        return
+
+    from ajit_lpp.ingest_eml import ingest_dir
+
+    for matter in matters:
+        facts, errors = ingest_dir(matter)
+        print(f"  {matter.name}: {len(facts)} parsed, {len(errors)} errors")
+        for e in errors[:5]:
+            print(f"    ERROR {e}")
+        check(f"{matter.name}: every file parsed", not errors, f"{len(errors)} errors")
+        if not facts:
+            continue
+        hashes = {f.source_hash for f in facts}
+        check(f"{matter.name}: hashes unique per file", len(hashes) == len(facts))
+        disps = {}
+        for f in facts:
+            d = classify(f).disposition.value
+            disps[d] = disps.get(d, 0) + 1
+        print(f"    mechanical-only dispositions: {disps}")
+        check(
+            f"{matter.name}: nothing PRIVILEGED on mechanical facts alone",
+            disps.get("privileged", 0) == 0,
+            disps,
+        )
+        gt_path = matter / "ground_truth.json"
+        if not gt_path.exists():
+            print(f"    NOTE  no ground_truth.json in {matter.name} — smoke checks only")
+            continue
+        _score_against_ground_truth(matter, gt_path, facts)
+
+
+def _score_against_ground_truth(matter, gt_path, facts) -> None:
+    """Perfect-proposer simulation: ground truth supplies the evaluative
+    facts a correct proposer would record; the rule layer disposes; the
+    dispositions are scored against the labels.
+
+    This tests the RULE LAYER at corpus scale, independently of any LLM.
+    It does not test a proposer — none exists yet — and says so.
+    """
+    import json
+    from dataclasses import replace as _r
+    from ajit_lpp.models import Tri, Limb
+
+    gt = {g["email_id"]: g for g in json.loads(gt_path.read_text())}
+    by_id = {f.doc_id: f for f in facts}
+    missing = [k for k in gt if k not in by_id]
+    check(f"{matter.name}: every ground-truth id has an .eml",
+          not missing, f"{len(missing)} missing")
+
+    ok_priv = ok_notpriv = ok_noclaim = ok_hitl = 0
+    wrong = []
+    for eid, g in gt.items():
+        f = by_id.get(eid)
+        if f is None:
+            continue
+        label, mixed, fraud, waiver = (g["label"], g["is_mixed"],
+                                       g["is_fraud"], g["is_waiver"])
+        # The perfect proposer records what the scenario actually was:
+        if label == "privileged" and not (mixed or fraud or waiver):
+            f2 = _r(f, asserted_limb=Limb.LEGAL_ADVICE,
+                    marked_confidential=Tri.YES, disclosed_to_third_party=Tri.NO,
+                    mixed_purpose_indicated=Tri.NO,
+                    proposed_dominant_purpose=g.get("reason", "legal advice"),
+                    parties=tuple(
+                        _r(p, is_lawyer=Tri.YES, acting_in_legal_capacity=Tri.YES)
+                        if i == 0 else
+                        _r(p, is_client_or_client_employee=Tri.YES)
+                        for i, p in enumerate(f.parties)) or f.parties,
+                    prior_waiver_recorded=Tri.NO)
+            expect = "privileged"
+        elif fraud:
+            f2 = _r(f, asserted_limb=Limb.LEGAL_ADVICE,
+                    improper_purpose_recorded=Tri.YES)
+            expect = "not_privileged"
+        elif waiver:
+            f2 = _r(f, asserted_limb=Limb.LEGAL_ADVICE,
+                    prior_waiver_recorded=Tri.YES)
+            expect = "not_privileged"
+        elif mixed or label == "review_required":
+            f2 = _r(f, asserted_limb=Limb.LEGAL_ADVICE,
+                    mixed_purpose_indicated=Tri.YES if mixed else Tri.UNKNOWN)
+            expect = "hitl_required"
+        else:  # plain not_privileged: no claim is asserted over it
+            f2 = f
+            expect = "no_claim"
+
+        got = classify(f2).disposition.value
+        if expect == "no_claim":
+            # Unclaimed documents are produced; the engine's answer must be
+            # "no claim to test" (HITL via AU-PURP-03), never privileged.
+            if got != "privileged":
+                ok_noclaim += 1
+            else:
+                wrong.append((eid, "privileged asserted over an unclaimed document"))
+        elif got == expect:
+            if expect == "privileged": ok_priv += 1
+            elif expect == "not_privileged": ok_notpriv += 1
+            else: ok_hitl += 1
+        else:
+            wrong.append((eid, f"expected {expect}, engine {got} "
+                               f"(label={label} mixed={mixed} fraud={fraud} waiver={waiver})"))
+
+    total = ok_priv + ok_notpriv + ok_noclaim + ok_hitl + len(wrong)
+    print(f"    perfect-proposer simulation over {total} ground-truth entries:")
+    print(f"      privileged matched      : {ok_priv}")
+    print(f"      not_privileged matched  : {ok_notpriv}")
+    print(f"      review/mixed -> HITL    : {ok_hitl}")
+    print(f"      unclaimed handled       : {ok_noclaim}")
+    print(f"      wrong                   : {len(wrong)}")
+    for eid, why in wrong[:8]:
+        print(f"        {eid[:13]}: {why}")
+    check(f"{matter.name}: zero wrong dispositions under perfect facts",
+          not wrong, f"{len(wrong)} wrong")
+    print("    NOTE  this scores the rule layer with correctly recorded facts;")
+    print("          the proposer (D-03) is a separate, unbuilt, ungated component")
 
 
 def gate_nat75447() -> None:

@@ -22,7 +22,7 @@ from typing import Any
 
 
 SCHEMA_VERSION = "ajit.facts/1"
-RULESET_VERSION = "au.lpp/0.2"
+RULESET_VERSION = "au.lpp/0.3"
 
 
 class Tri(str, Enum):
@@ -106,6 +106,12 @@ class DocumentFacts:
     proposed_dominant_purpose: str = ""  # free text from proposer
     proposer_confidence: float = 0.0  # 0.0-1.0; advisory only
     mixed_purpose_indicated: Tri = Tri.UNKNOWN
+
+    # A-G (NT) v Kearney (1985) 159 CLR 500: privilege does not attach to
+    # communications made in furtherance of an illegal or improper purpose.
+    # This is a RECORDED finding (an operator or court has found it), never
+    # an inference from content.
+    improper_purpose_recorded: Tri = Tri.UNKNOWN
 
     # --- Compulsion / handling ---
     produced_under_compulsion: Tri = Tri.UNKNOWN

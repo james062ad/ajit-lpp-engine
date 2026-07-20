@@ -109,6 +109,37 @@ FIXTURES: tuple[GoldenFixture, ...] = (
     ),
     # ------------------------------------------------------------------
     GoldenFixture(
+        case_id="AU-C3-04",  # Propend — copies of documents
+        facts=_f(
+            "AU-C3-04",
+            doc_type="copy documents",
+            subject="Copies of non-privileged originals, made for provision to solicitor for advice",
+            parties=(
+                Party("solicitor", "recipient", Tri.YES, Tri.YES, Tri.NO, Tri.NO),
+                Party("client", "sender", Tri.NO, Tri.NO, Tri.YES, Tri.NO),
+            ),
+            is_copy=Tri.YES,
+            marked_confidential=Tri.YES,
+            disclosed_to_third_party=Tri.NO,
+            created_in_public_ai_tool=Tri.NO,
+            asserted_limb=Limb.LEGAL_ADVICE,
+            proposed_dominant_purpose="Copies made for the purpose of obtaining legal advice",
+            mixed_purpose_indicated=Tri.NO,
+            prior_waiver_recorded=Tri.NO,
+        ),
+        court="privileged",
+        engine="privileged",
+        rationale=(
+            "Propend: a copy made for the privileged purpose can attract "
+            "privilege even where the original does not. The engine has no "
+            "rule that penalises is_copy=YES, so the claim rides on the "
+            "ordinary elements — which is the correct doctrine. If a future "
+            "rule ever makes copy status decisive against a claim, this "
+            "fixture is the regression tripwire."
+        ),
+    ),
+    # ------------------------------------------------------------------
+    GoldenFixture(
         case_id="AU-C3-05",  # Pratt Holdings
         facts=_f(
             "AU-C3-05",
@@ -143,6 +174,39 @@ FIXTURES: tuple[GoldenFixture, ...] = (
             "advice-limb boundary. If the engine says NOT_PRIVILEGED here, "
             "that is a rule-layer BUG — the third-party agent doctrine is not "
             "yet encoded."
+        ),
+    ),
+    # ------------------------------------------------------------------
+    GoldenFixture(
+        case_id="AU-C3-07",  # A-G (NT) v Maurice — source materials
+        facts=_f(
+            "AU-C3-07",
+            doc_type="source materials",
+            subject="Underlying source materials compiled for a claim book in proceedings",
+            parties=(
+                Party("counsel/advisers", "recipient", Tri.YES, Tri.YES, Tri.NO, Tri.NO),
+                Party("claimants", "author", Tri.NO, Tri.NO, Tri.YES, Tri.NO),
+            ),
+            marked_confidential=Tri.YES,
+            disclosed_to_third_party=Tri.NO,
+            created_in_public_ai_tool=Tri.NO,
+            asserted_limb=Limb.LITIGATION,
+            litigation_on_foot_or_anticipated=Tri.YES,
+            proposed_dominant_purpose="Preparation of the claim for the proceeding",
+            mixed_purpose_indicated=Tri.NO,
+            prior_waiver_recorded=Tri.NO,
+        ),
+        court="privileged",
+        engine="privileged",
+        rationale=(
+            "The source materials themselves were not disclosed; the claim "
+            "book was. The waiver contest — whether tabling the claim book "
+            "waived privilege over the sources — is represented only as "
+            "prior_waiver_recorded=NO, matching the drafted determination "
+            "that privilege over the sources stood. The imputed-waiver "
+            "fairness analysis itself is NOT mechanised and is not claimed "
+            "to be; a recorded waiver ruling is the only waiver fact the "
+            "engine consumes."
         ),
     ),
     # ------------------------------------------------------------------

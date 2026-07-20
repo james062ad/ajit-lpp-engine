@@ -26,6 +26,7 @@ WATERFORD = "Waterford v Commonwealth (1987) 163 CLR 54"
 PRATT = "Pratt Holdings Pty Ltd v FCT (2004) 136 FCR 357"
 DANIELS = "Daniels Corporation v ACCC (2002) 213 CLR 543"
 HEPPNER = "United States v Heppner (SDNY, 17 Feb 2026)"
+KEARNEY = "Attorney-General (NT) v Kearney (1985) 159 CLR 500"
 
 
 def _verified(citation: str) -> bool:
@@ -109,6 +110,23 @@ def r_conf_02_third_party_disclosure(f: DocumentFacts) -> RuleOutcome | None:
             Disposition.HITL_REQUIRED,
             "Whether the communication left the privileged circle has not been "
             "established from the record.",
+        )
+    return None
+
+
+def r_conf_04_improper_purpose(f: DocumentFacts) -> RuleOutcome | None:
+    """Communications in furtherance of an illegal or improper purpose never
+    attract privilege. Fires only on a RECORDED finding; an unproven
+    allegation is not a fact and does not move the disposition."""
+    if f.improper_purpose_recorded is Tri.YES:
+        return _outcome(
+            "AU-CONF-04",
+            Disposition.NOT_PRIVILEGED,
+            "It is recorded that the communication was made in furtherance of "
+            "an illegal or improper purpose. Privilege does not attach to "
+            "such communications.",
+            KEARNEY,
+            decisive=True,
         )
     return None
 
@@ -300,6 +318,7 @@ def r_purpose_03_no_limb_asserted(f: DocumentFacts) -> RuleOutcome | None:
 
 RULE_CHAIN = (
     r_conf_01_public_ai_tool,
+    r_conf_04_improper_purpose,
     r_conf_03_prior_waiver,
     r_purpose_03_no_limb_asserted,
     r_party_01_lawyer_present,

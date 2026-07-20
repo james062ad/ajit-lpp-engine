@@ -305,6 +305,40 @@ def _q1_row(facts: DocumentFacts, cls: Classification) -> dict[str, str]:
     }
 
 
+def _normalise_archive(path: Path) -> None:
+    """Rewrite the xlsx so identical content gives identical bytes.
+
+    openpyxl stamps every zip ENTRY with the wall-clock save time at second
+    granularity — so two exports of the same content differ across a second
+    boundary. Gate 4 caught this the first time a run straddled one. Entry
+    order and content are preserved; timestamps are pinned; compression is
+    made uniform. The wall clock never enters the file.
+    """
+    import zipfile
+
+    import re
+
+    entries = []
+    with zipfile.ZipFile(path, "r") as zin:
+        for info in zin.infolist():
+            data = zin.read(info.filename)
+            if info.filename == "docProps/core.xml":
+                # openpyxl overwrites dcterms:modified with the wall clock at
+                # save time regardless of what was set on the workbook. Pin
+                # both stamps here, where nothing can overwrite them again.
+                data = re.sub(
+                    rb"(<dcterms:(?:created|modified)[^>]*>)[^<]*(</dcterms:(?:created|modified)>)",
+                    rb"\g<1>2000-01-01T00:00:00Z\g<2>",
+                    data,
+                )
+            entries.append((info.filename, data))
+    with zipfile.ZipFile(path, "w", zipfile.ZIP_DEFLATED) as zout:
+        for name, data in entries:
+            info = zipfile.ZipInfo(name, date_time=(1980, 1, 1, 0, 0, 0))
+            info.compress_type = zipfile.ZIP_DEFLATED
+            zout.writestr(info, data)
+
+
 def export(
     template: Path,
     destination: Path,
@@ -369,6 +403,7 @@ def export(
     wb.properties.created = epoch
     wb.properties.modified = epoch
     wb.save(destination)
+    _normalise_archive(Path(destination))
 
     out_hash = file_hash(Path(destination))
     return log_line(Path(template), claimant, [c for _, c in ordered], out_hash)
