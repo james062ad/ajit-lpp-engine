@@ -9,3 +9,4 @@ lpp_solution/
 *.mbox
 data/corpus/
 template_root.xlsx
+output/
