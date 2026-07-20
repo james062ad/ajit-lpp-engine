@@ -1,0 +1,11 @@
+.venv/
+__pycache__/
+*.pyc
+.DS_Store
+reference/
+om_privilege_project/
+lpp_solution/
+*.pdf
+*.mbox
+data/corpus/
+template_root.xlsx
