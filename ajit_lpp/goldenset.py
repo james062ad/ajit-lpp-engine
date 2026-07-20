@@ -51,6 +51,23 @@ class GoldenRow:
         }.get(self.row_type, "")
 
 
+def _normalise(determination: str) -> str:
+    """Reduce a qualified determination to its operative token.
+
+    Drafters write determinations the way lawyers do — "privileged (in
+    principle ...)", "not_privileged — see notes". The qualification is
+    content and stays in the CSV; scoring needs the operative word. Order
+    matters: not_privileged is checked first because "privileged" is a
+    substring of it.
+    """
+    d = determination.strip().lower()
+    if d.startswith("not_privileged") or d.startswith("not privileged"):
+        return "not_privileged"
+    if d.startswith("privileged"):
+        return "privileged"
+    return d
+
+
 def _type_row(determination: str, notes: str) -> str:
     n = notes.lower()
     if "record_type=rule" in n:
@@ -60,7 +77,11 @@ def _type_row(determination: str, notes: str) -> str:
     d = determination.strip().lower()
     if not d or d.startswith("uncertain"):
         return "uncertain"
-    if d in SCORABLE:
+    if d.startswith("n/a"):
+        # A drafter's explicit "not a privilege determination" without a
+        # record_type tag: treat as context, never as scorable.
+        return "context"
+    if _normalise(d) in SCORABLE:
         return "scorable"
     return "mixed"
 
@@ -77,7 +98,7 @@ def load_goldenset(path: Path) -> list[GoldenRow]:
                     authority=r.get("authority", ""),
                     limb=r.get("limb", ""),
                     edge_tested=r.get("edge_tested", ""),
-                    determination=det.lower(),
+                    determination=_normalise(det),
                     basis=r.get("basis", ""),
                     notes=notes,
                     expert_validated=(r.get("expert_validated") or "").strip(),
