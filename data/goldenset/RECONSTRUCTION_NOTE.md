@@ -28,9 +28,11 @@ minimum honour its three architectural findings:
    `record_type {rule | determination}` field; rule-statement authorities
    (Esso, Spotless on the meaning of "dominant") live in the rule module as
    binding sources; the validation harness scores only
-   `record_type=determination` rows. **[DECISION REQUIRED: James — adopt the
-   record_type split?]** If adopted, AU-C3-01 and AU-C3-09 move to the rule
-   module and the harness scores the other thirteen.
+   `record_type=determination` rows. **[ADOPTED: James, 20 Jul 2026.]**
+   AU-C3-01 and AU-C3-09 are tagged `record_type=rule` in their notes field
+   (AU-C3-01's tag to be applied when the worked Esso record lands); the
+   dedicated column comes later with the harness, which scores the other
+   thirteen.
 
 2. **Grant v Downs handling.** The sole-purpose *test* is displaced, but the
    document *result* survives — the multi-purpose internal incident reports
