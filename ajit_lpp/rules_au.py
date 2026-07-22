@@ -48,7 +48,7 @@ WATERFORD = "Waterford v Commonwealth (1987) 163 CLR 54"
 PRATT = "Pratt Holdings Pty Ltd v FCT (2004) 136 FCR 357"
 PROPEND = "Commissioner of AFP v Propend Finance Pty Ltd (1997) 188 CLR 501"
 DANIELS = "Daniels Corporation v ACCC (2002) 213 CLR 543"
-KEARNEY = "Attorney-General (NT) v Kearney (1985) 159 CLR 500"
+KEARNEY = "Attorney-General (NT) v Kearney (1985) 158 CLR 500"
 EXPENSE = "Expense Reduction Analysts v Armstrong Strategic (2013) 250 CLR 303"
 HEPPNER = "United States v Heppner (SDNY, 17 Feb 2026)"
 

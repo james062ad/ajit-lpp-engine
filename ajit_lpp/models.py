@@ -22,7 +22,7 @@ from typing import Any
 
 
 SCHEMA_VERSION = "ajit.facts/1"
-RULESET_VERSION = "au.lpp/0.4.1"
+RULESET_VERSION = "au.lpp/0.4.2"
 
 
 class Tri(str, Enum):
