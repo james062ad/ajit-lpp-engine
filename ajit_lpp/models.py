@@ -22,7 +22,7 @@ from typing import Any
 
 
 SCHEMA_VERSION = "ajit.facts/1"
-RULESET_VERSION = "au.lpp/0.3"
+RULESET_VERSION = "au.lpp/0.4"
 
 
 class Tri(str, Enum):
@@ -40,6 +40,7 @@ class Limb(str, Enum):
 
 
 class Disposition(str, Enum):
+    NOTED = "noted"  # a recorded observation; never affects the disposition
     PRIVILEGED = "privileged"
     NOT_PRIVILEGED = "not_privileged"
     HITL_REQUIRED = "hitl_required"
@@ -112,6 +113,41 @@ class DocumentFacts:
     # This is a RECORDED finding (an operator or court has found it), never
     # an inference from content.
     improper_purpose_recorded: Tri = Tri.UNKNOWN
+
+    # --- Confidentiality, as an ELEMENT (not as marking) --------------------
+    # marked_confidential above is evidence of confidentiality, not the
+    # element itself. An unmarked communication can be confidential; a marked
+    # one can fail. This is the recorded finding on the element.
+    communication_confidential: Tri = Tri.UNKNOWN
+    # Confidentiality absent at the moment of creation (non-attachment, NOT
+    # waiver). created_in_public_ai_tool is evidence going to this.
+    confidentiality_destroyed_at_creation: Tri = Tri.UNKNOWN
+
+    # --- Disclosure facts that Mann v Carnell actually turns on -------------
+    disclosure_purpose_limited: Tri = Tri.UNKNOWN
+    disclosure_under_obligation_of_confidence: Tri = Tri.UNKNOWN
+    disclosure_inadvertent: Tri = Tri.UNKNOWN
+    # A ruling, by a court or the named claimant, that privilege was waived.
+    waiver_ruling_recorded: Tri = Tri.UNKNOWN
+    waiver_scope_subject_matter: str = ""
+
+    # --- Legal advice limb --------------------------------------------------
+    # Is the articulated dominant purpose the giving or obtaining of LEGAL
+    # advice, as distinct from commercial, strategic or other advice?
+    purpose_is_legal_advice: Tri = Tri.UNKNOWN
+    lawyer_is_in_house: Tri = Tri.UNKNOWN
+    in_house_independence_recorded: Tri = Tri.UNKNOWN
+    circulates_existing_legal_advice: Tri = Tri.UNKNOWN
+    copy_made_for_privileged_purpose: Tri = Tri.UNKNOWN
+
+    # --- Litigation limb ----------------------------------------------------
+    # Litigation privilege requires adversarial proceedings. An audit, a
+    # regulatory questionnaire or an inquisitorial process is not litigation.
+    proceedings_adversarial: Tri = Tri.UNKNOWN
+
+    # --- Statutory abrogation (Daniels) ------------------------------------
+    statute_abrogates_privilege: Tri = Tri.UNKNOWN
+    protocol_followed: Tri = Tri.UNKNOWN
 
     # --- Compulsion / handling ---
     produced_under_compulsion: Tri = Tri.UNKNOWN

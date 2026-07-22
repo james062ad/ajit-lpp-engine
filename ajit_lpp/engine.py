@@ -70,6 +70,7 @@ def _dispose(outcomes: list[RuleOutcome]) -> tuple[Disposition, str]:
         if o.decisive and o.disposition is Disposition.NOT_PRIVILEGED:
             return Disposition.NOT_PRIVILEGED, o.basis
 
+    # NOTED outcomes are recorded observations and never move a disposition.
     hitl = [o for o in outcomes if o.disposition is Disposition.HITL_REQUIRED]
     if hitl:
         return (

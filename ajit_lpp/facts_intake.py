@@ -52,7 +52,9 @@ COLUMNS = [
     "distribution_breadth", "asserted_limb", "prepared_for_provision_to_lawyer",
     "litigation_on_foot_or_anticipated", "proposed_dominant_purpose",
     "mixed_purpose_indicated", "produced_under_compulsion",
-    "prior_waiver_recorded", "improper_purpose_recorded", "recorder_notes",
+    "prior_waiver_recorded", "improper_purpose_recorded",
+    "communication_confidential", "confidentiality_destroyed_at_creation", "purpose_is_legal_advice", "proceedings_adversarial", "statute_abrogates_privilege", "circulates_existing_legal_advice", "copy_made_for_privileged_purpose", "lawyer_is_in_house", "in_house_independence_recorded", "disclosure_purpose_limited", "disclosure_under_obligation_of_confidence", "disclosure_inadvertent", "waiver_ruling_recorded", "protocol_followed",
+    "recorder_notes",
 ]
 
 EXAMPLE_ROW = {
@@ -81,6 +83,20 @@ EXAMPLE_ROW = {
     "produced_under_compulsion": "no",
     "prior_waiver_recorded": "no",
     "improper_purpose_recorded": "no",
+    "communication_confidential": "",
+    "confidentiality_destroyed_at_creation": "",
+    "purpose_is_legal_advice": "",
+    "proceedings_adversarial": "",
+    "statute_abrogates_privilege": "",
+    "circulates_existing_legal_advice": "",
+    "copy_made_for_privileged_purpose": "",
+    "lawyer_is_in_house": "",
+    "in_house_independence_recorded": "",
+    "disclosure_purpose_limited": "",
+    "disclosure_under_obligation_of_confidence": "",
+    "disclosure_inadvertent": "",
+    "waiver_ruling_recorded": "",
+    "protocol_followed": "",
     "recorder_notes": "Blank cells mean UNKNOWN and route to a human. Only an explicit 'no' is a NO.",
 }
 
@@ -232,6 +248,21 @@ def load_facts(path: Path) -> list[DocumentFacts]:
                                            "prior_waiver_recorded", errors),
                 improper_purpose_recorded=_tri(r["improper_purpose_recorded"], i,
                                                "improper_purpose_recorded", errors),
+                communication_confidential=_tri(r["communication_confidential"], i, "communication_confidential", errors),
+                confidentiality_destroyed_at_creation=_tri(r["confidentiality_destroyed_at_creation"], i, "confidentiality_destroyed_at_creation", errors),
+                purpose_is_legal_advice=_tri(r["purpose_is_legal_advice"], i, "purpose_is_legal_advice", errors),
+                proceedings_adversarial=_tri(r["proceedings_adversarial"], i, "proceedings_adversarial", errors),
+                statute_abrogates_privilege=_tri(r["statute_abrogates_privilege"], i, "statute_abrogates_privilege", errors),
+                circulates_existing_legal_advice=_tri(r["circulates_existing_legal_advice"], i, "circulates_existing_legal_advice", errors),
+                copy_made_for_privileged_purpose=_tri(r["copy_made_for_privileged_purpose"], i, "copy_made_for_privileged_purpose", errors),
+                lawyer_is_in_house=_tri(r["lawyer_is_in_house"], i, "lawyer_is_in_house", errors),
+                in_house_independence_recorded=_tri(r["in_house_independence_recorded"], i, "in_house_independence_recorded", errors),
+                disclosure_purpose_limited=_tri(r["disclosure_purpose_limited"], i, "disclosure_purpose_limited", errors),
+                disclosure_under_obligation_of_confidence=_tri(r["disclosure_under_obligation_of_confidence"], i, "disclosure_under_obligation_of_confidence", errors),
+                disclosure_inadvertent=_tri(r["disclosure_inadvertent"], i, "disclosure_inadvertent", errors),
+                waiver_ruling_recorded=_tri(r["waiver_ruling_recorded"], i, "waiver_ruling_recorded", errors),
+                protocol_followed=_tri(r["protocol_followed"], i, "protocol_followed", errors),
+
             ))
 
     if errors:

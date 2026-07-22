@@ -43,12 +43,19 @@ def clean_advice() -> DocumentFacts:
             Party("P2", "recipient", Tri.NO, Tri.NO, Tri.YES, Tri.NO, "Client Ltd", "GC"),
         ),
         marked_confidential=Tri.YES,
+        communication_confidential=Tri.YES,
         disclosed_to_third_party=Tri.NO,
         created_in_public_ai_tool=Tri.NO,
+        confidentiality_destroyed_at_creation=Tri.NO,
         asserted_limb=Limb.LEGAL_ADVICE,
+        purpose_is_legal_advice=Tri.YES,
         proposed_dominant_purpose="Obtaining legal advice on the s353-10 notice",
         proposer_confidence=0.94,
         mixed_purpose_indicated=Tri.NO,
+        is_copy=Tri.NO,
+        statute_abrogates_privilege=Tri.NO,
+        improper_purpose_recorded=Tri.NO,
+        waiver_ruling_recorded=Tri.NO,
         prior_waiver_recorded=Tri.NO,
     )
 
@@ -96,14 +103,30 @@ def gate_rule_behaviour() -> None:
 
     c = classify(mutate(clean_advice(), created_in_public_ai_tool=Tri.YES))
     check(
-        "public AI tool defeats attachment, decisively",
-        c.disposition is Disposition.NOT_PRIVILEGED,
-        c.disposition,
+        "recorded destruction of confidentiality at creation is decisive",
+        classify(mutate(clean_advice(),
+                        confidentiality_destroyed_at_creation=Tri.YES)
+                 ).disposition is Disposition.NOT_PRIVILEGED,
     )
     check(
-        "public AI tool short-circuits the chain",
-        len(c.outcomes) == 1,
-        f"{len(c.outcomes)} outcomes",
+        "a recorded bar short-circuits the chain",
+        len(classify(mutate(clean_advice(),
+                            confidentiality_destroyed_at_creation=Tri.YES)
+                     ).outcomes) == 1,
+    )
+    # 0.4: a public AI tool is EVIDENCE going to the confidentiality element,
+    # not the element. Where the tool's terms are unrecorded, a human decides;
+    # where they are recorded as confidentiality-preserving, the claim stands.
+    check(
+        "public AI tool with unrecorded terms goes to a human",
+        classify(mutate(clean_advice(), created_in_public_ai_tool=Tri.YES,
+                        confidentiality_destroyed_at_creation=Tri.UNKNOWN)
+                 ).disposition is Disposition.HITL_REQUIRED,
+    )
+    check(
+        "public AI tool is not decisive where confidentiality survived",
+        classify(mutate(clean_advice(), created_in_public_ai_tool=Tri.YES)
+                 ).disposition is Disposition.PRIVILEGED,
     )
 
     c = classify(mutate(clean_advice(), mixed_purpose_indicated=Tri.YES))
@@ -183,8 +206,9 @@ def gate_rule_behaviour() -> None:
     c = classify(mutate(clean_advice(), created_in_public_ai_tool=Tri.YES))
     check(
         "a pending authority is flagged, not relied on silently",
-        "United States v Heppner (SDNY, 17 Feb 2026)" in c.unverified_authorities,
-        c.unverified_authorities,
+        "Mann v Carnell (1999) 201 CLR 1" in classify(
+            mutate(clean_advice(), disclosed_to_third_party=Tri.YES)
+        ).unverified_authorities,
     )
 
 
@@ -323,6 +347,12 @@ def _score_against_ground_truth(matter, gt_path, facts) -> None:
         # The perfect proposer records what the scenario actually was:
         if label == "privileged" and not (mixed or fraud or waiver):
             f2 = _r(f, asserted_limb=Limb.LEGAL_ADVICE,
+                    communication_confidential=Tri.YES,
+                    purpose_is_legal_advice=Tri.YES,
+                    statute_abrogates_privilege=Tri.NO,
+                    improper_purpose_recorded=Tri.NO,
+                    waiver_ruling_recorded=Tri.NO,
+                    confidentiality_destroyed_at_creation=Tri.NO,
                     marked_confidential=Tri.YES, disclosed_to_third_party=Tri.NO,
                     mixed_purpose_indicated=Tri.NO,
                     proposed_dominant_purpose=g.get("reason", "legal advice"),
@@ -339,7 +369,7 @@ def _score_against_ground_truth(matter, gt_path, facts) -> None:
             expect = "not_privileged"
         elif waiver:
             f2 = _r(f, asserted_limb=Limb.LEGAL_ADVICE,
-                    prior_waiver_recorded=Tri.YES)
+                    waiver_ruling_recorded=Tri.YES)
             expect = "not_privileged"
         elif mixed or label == "review_required":
             f2 = _r(f, asserted_limb=Limb.LEGAL_ADVICE,
