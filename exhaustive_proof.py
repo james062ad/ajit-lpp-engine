@@ -32,6 +32,7 @@ Run:  python3 exhaustive_proof.py
 """
 
 from __future__ import annotations
+from ajit_lpp.models import RULESET_VERSION
 
 import itertools
 import sys
@@ -174,7 +175,7 @@ def check_point(f: DocumentFacts, label: str) -> None:
 
 
 def main() -> int:
-    print(f"Exhaustive proof — ruleset au.lpp/0.4")
+    print(f"Exhaustive proof — ruleset {RULESET_VERSION}")
     print(f"axes: {len(AXES)} tri-state facts x {len(PARTY_CONFIGS)} party "
           f"configurations x 3 limbs")
     total = 3 ** len(AXES) * len(PARTY_CONFIGS) * 3

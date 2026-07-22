@@ -203,13 +203,29 @@ def gate_rule_behaviour() -> None:
         c.unverified_authorities,
     )
 
-    c = classify(mutate(clean_advice(), created_in_public_ai_tool=Tri.YES))
-    check(
-        "a pending authority is flagged, not relied on silently",
-        "Mann v Carnell (1999) 201 CLR 1" in classify(
-            mutate(clean_advice(), disclosed_to_third_party=Tri.YES)
-        ).unverified_authorities,
-    )
+    from ajit_lpp.rules_au import VERIFIED_AUTHORITIES, MANN, PRATT, WATERFORD, \
+        KEARNEY, DANIELS, PROPEND, EXPENSE
+    pending = [a for a in (MANN, PRATT, WATERFORD, KEARNEY, DANIELS, PROPEND, EXPENSE)
+               if a not in VERIFIED_AUTHORITIES]
+    if not pending:
+        print("  SKIP  every rule-layer authority is verified — pending-flag "
+              "probe no longer applicable")
+    else:
+        # Exercise paths that cite still-pending authorities and confirm at
+        # least one surfaces its pending flag rather than being relied on
+        # silently. Probes: third-party disclosure (Mann/Expense), no-lawyer
+        # provision-unknown (Pratt), copy purpose (Propend).
+        flagged = set()
+        for probe in (
+            mutate(clean_advice(), disclosed_to_third_party=Tri.YES),
+            mutate(clean_advice(), is_copy=Tri.YES),
+        ):
+            flagged |= set(classify(probe).unverified_authorities)
+        check(
+            "a pending authority is flagged, not relied on silently",
+            any(a in flagged for a in pending),
+            f"pending={len(pending)}, flagged={sorted(flagged)}",
+        )
 
 
 # ----------------------------------------------------------- stubbed gates

@@ -194,13 +194,14 @@ def r_waiv_02(f):
         return _o("AU-WAIV-02", Disposition.NOTED,
                   "Disclosed to a third party, but on recorded facts consistent "
                   "with maintaining confidentiality (common interest, or a limited "
-                  "purpose under an obligation of confidence). No waiver arises "
-                  "from the disclosure itself.", MANN)
+                  "purpose under an obligation of confidence). Such disclosure does "
+                  "not of itself establish waiver.", MANN)
     return _o("AU-WAIV-02", Disposition.HITL_REQUIRED,
               "Disclosed to a third party. Whether that conduct is inconsistent "
               "with maintaining confidentiality — and so imputes waiver — is "
-              "assessed objectively on the whole of the circumstances. It is never "
-              "inferred from the fact of disclosure.", MANN)
+              "assessed objectively on the whole of the circumstances, informed "
+              "where necessary by considerations of fairness. Disclosure does "
+              "not of itself necessarily establish waiver.", MANN)
 
 
 def r_copy_01(f):
