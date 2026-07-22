@@ -37,7 +37,10 @@ from __future__ import annotations
 
 from .models import Disposition, DocumentFacts, Limb, Party, RuleOutcome, Tri
 
-VERIFIED_AUTHORITIES = frozenset({"Esso Australia Resources Ltd v FCT [1999] HCA 67"})
+VERIFIED_AUTHORITIES = frozenset({
+    "Esso Australia Resources Ltd v FCT [1999] HCA 67",
+    "Mann v Carnell (1999) 201 CLR 1",
+})
 
 ESSO = "Esso Australia Resources Ltd v FCT [1999] HCA 67"
 MANN = "Mann v Carnell (1999) 201 CLR 1"
