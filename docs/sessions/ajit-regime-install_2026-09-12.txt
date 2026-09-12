@@ -1,0 +1,327 @@
+ ▐▛███▛█   Claude Code v2.1.268
+▝▜██████▀  Opus 5 · Claude Max
+  ▝▝ ▝▝    ~/AJIT-LPP-Engine
+
+  Fable 5.1 writes better code and reports progress on long tasks. Switch anytime with /model.
+  +1 more · /status
+
+❯ /model                                                                        
+  ⎿  Set model to Opus 5 (1M context) and saved as your default for new sessions
+
+❯ /rename ajit-regime-install 
+  ⎿  Session renamed to: ajit-regime-install
+
+❯ Model: claude-opus-5                                                          
+                                                                                
+  Write the content between ===BEGIN=== and ===END=== to a new file CLAUDE.md   
+  at the repo root, byte for byte, one newline after the last line. Check       
+  sha256 1b46f19ce221dca36fe904c9ec53e073be92883d4bed9cb39c289088a04cefbb, 51   
+  lines; STOP if different. Then run exactly:                                   
+  git add -N CLAUDE.md                                                          
+  git commit -m "Add CLAUDE.md session regime (sha256                           
+  1b46f19ce221dca36fe904c9ec53e073be92883d4bed9cb39c289088a04cefbb); five gates 
+  pass on the citadel account 12 Sep 2026" -- CLAUDE.md                         
+  git push origin main                                                          
+  git log -1 --format='%h %s' ; git status -sb | head -1 ; git status           
+  --porcelain | wc -l                                                           
+  STOP.                                                                         
+                                                                                
+  ===BEGIN===                                                                   
+  CLAUDE.md — AJIT LPP Engine session regime                                    
+                                                                                
+  Provenance: drafted 12 Sep 2026, adapted from the Citadel Public Record       
+  regime                                                                        
+  (sha256 0b52311a…6816). Authority for this repository once committed.         
+                                                                                
+  0. Model line                                                                 
+                                                                                
+  Every paste block opens with Model:. Opus for mechanical work; Fable for      
+  firsts,                                                                       
+  evaluation, design and anything touching the rule layer or the authorities;   
+  Sonnet for                                                                    
+  pure reads. No block runs without a Model line.                               
+                                                                                
+  1. What this engine is, and the line it must not cross                        
+                                                                                
+  An LLM may propose evaluative facts. Deterministic rules dispose. Every       
+  evaluative                                                                    
+  question routes to a human. UNKNOWN is never read as NO. The export refuses   
+  to produce a                                                                  
+  NAT 75447 unless all authorities are verified, the claimant is named, and no  
+  HITL question                                                                 
+  remains open. No change may weaken any of these; a change that does is a      
+  ruling in                                                                     
+  DECISIONS.md, not a commit.                                                   
+                                                                                
+  2. Authorities                                                                
+                                                                                
+  Rule-layer citations are verified by the practitioner from the issuing court, 
+  or marked                                                                     
+  pending in every record that relies on them. Claude never supplies, completes 
+  or                                                                            
+  "confirms" a citation, pinpoint, bench or quotation — the 2026 error study    
+  catalogued nine                                                               
+  ways that goes wrong (citation drift, bench fabrication, polarity inversion,  
+  omission,                                                                     
+  pinpoint drift, cross-judgment bleed, false precision, provenance laundering, 
+  hedge                                                                         
+  erosion). Where an authority is unpaginated in the source consulted, no       
+  pinpoint is                                                                   
+  claimed. Verification order (D-04): Mann v Carnell, Waterford, Heppner (US    
+  persuasive                                                                    
+  only), Pratt, Daniels.                                                        
+                                                                                
+  3. Machine and environment                                                    
+                                                                                
+  iMac only, account citadel, clone ~/AJIT-LPP-Engine. Engine is standard       
+  library only;                                                                 
+  .venv exists solely for openpyxl, which the NAT 75447 export needs. Fixture   
+  mailboxes,                                                                    
+  the April build and Desiatnik live at /Volumes/Citadel Data/lpp_data/         
+  (manifest                                                                     
+  LPP_DATA.sha256, 7112 files), backed up to My 750 GB/Citadel-Backup. No       
+  mailbox, matter                                                               
+  or client document is ever committed to this repo.                            
+                                                                                
+  4. Gates                                                                      
+                                                                                
+  .venv/bin/python tests_gates.py runs five gates: determinism (three-run       
+  byte-identical),                                                              
+  rule behaviour, golden set, synthetic taxonomy, NAT 75447 round-trip and its  
+  four refusals.                                                                
+  All five pass as of 12 Sep 2026. No commit lands with a gate failing; a gate  
+  that cannot                                                                   
+  pass is a ruling, not a skip.                                                 
+                                                                                
+  5. Opener, pen, close-out                                                     
+                                                                                
+  Opener: /rename; read README, DECISIONS_OPEN.md, this file; report branch,    
+  ahead/behind,                                                                 
+  dirty tree, stash, index; name the single thing; STOP. One committing session 
+  at a time;                                                                    
+  git add never stages content; commits by explicit path. Close-out: commit by  
+  path or park                                                                  
+  with a reason, push if pen-holder, export the transcript to docs/sessions/,   
+  one-line                                                                      
+  state summary. Work that exists only in a chat tab does not exist.            
+                                                                                
+  6. Derive and prove                                                           
+                                                                                
+  Counts derived, never carried. Two sources disagreeing is a STOP. Nothing     
+  stated without a                                                              
+  named authority: a committed hash, a primary source checked at the time, an   
+  operator                                                                      
+  document, or a ruling. Otherwise omitted or marked [UNVERIFIED].              
+  ===END===                                                                     
+
+  Listed 1 directory, ran 1 shell command (ctrl+o to expand)
+
+⏺ Hash matches (1b46f19c…cefbb), 51 lines, single trailing newline. Proceeding.
+
+  Committed 7240048, ran 2 shell commands (ctrl+o to expand)
+  ⎿  PostToolUse:Bash says: Tip: Run /ultrareview before you push to catch bugs 
+     with a cloud-based multi-agent review — 3 free reviews left.
+
+⏺ Written and committed; the push failed.
+
+  - sha256 1b46f19ce221dca36fe904c9ec53e073be92883d4bed9cb39c289088a04cefbb —
+    matches, 51 lines, one trailing newline.
+  - Commit: 7240048 Add CLAUDE.md session regime (sha256 1b46f19c…cefbb); five 
+    gates pass on the citadel account 12 Sep 2026
+  - git push origin main → fatal: could not read Username for 
+    'https://github.com': Device not configured — the remote is HTTPS with no
+    credential available in this non-interactive shell.
+  - ## main...origin/main [ahead 1]
+  - Dirty tree: 0
+
+  The commit is local only. To push, run it yourself in this session: ! git push
+  origin main (it can prompt for credentials there), or authenticate first with
+  ! gh auth login / switch the remote to SSH.
+
+  STOP.
+
+✻ Worked for 1m 3s · done 11:36 am
+
+※ recap: CLAUDE.md was written with the exact expected hash and committed locally as 7240048, but the push to origin failed for lack of GitHub credentials. Next: run git push origin main yourself in this session so it can prompt. (disable recaps in /config)
+
+❯ Model: claude-opus-5                                                          
+  Run exactly:                                                                  
+  ssh-keygen -t ed25519 -C "ajit@Geoffreys-iMac-2" -f ~/.ssh/id_ed25519_ajit -N 
+  "" && printf 'Host github-ajit\n  HostName github.com\n  User git\n           
+  IdentityFile ~/.ssh/id_ed25519_ajit\n  IdentitiesOnly yes\n' >> ~/.ssh/config 
+  && cat ~/.ssh/id_ed25519_ajit.pub                                             
+  Report the public key line. STOP.                                             
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ Key generated, host alias appended to ~/.ssh/config.
+
+  Public key line:
+
+  ssh-ed25519
+  AAAAC3NzaC1lZDI1NTE5AAAAIEp35WJyxV3tf9nqxBQIXANPGi2jHuQ/CSOv3HpgTUvq
+  ajit@Geoffreys-iMac-2
+
+  Fingerprint: SHA256:OCXRevjsV6S5iMHu2e2qBK1k3gK+3SZIWCXpmFiSiXc
+
+  STOP.
+
+✻ Sautéed for 11s · done 11:42 am
+
+※ recap: Goal is committing the CLAUDE.md session regime to the AJIT LPP Engine repo; it's committed locally (7240048) but the push failed on HTTPS auth, so an SSH key was just created. Next: add that public key to GitHub, then push. (disable recaps in /config)
+
+❯ Model: claude-opus-5                                                          
+  Run exactly:                                                                  
+  git remote set-url origin git@github-ajit:james062ad/ajit-lpp-engine.git      
+  ssh -o StrictHostKeyChecking=accept-new -T git@github-ajit 2>&1 | tail -1     
+  git push origin main                                                          
+  git remote -v | head -1 ; git log -1 --format='%h %s' ; git status -sb | head 
+  -1 ; git status --porcelain | wc -l                                           
+  STOP.                                                                         
+
+  Pushed to main, ran 3 shell commands (ctrl+o to expand)
+
+⏺ Pushed.
+
+  - ssh -T → Hi james062ad/ajit-lpp-engine! You've successfully authenticated, 
+    but GitHub does not provide shell access. (authenticated as a deploy key
+    scoped to that repo, not as a user account — the greeting names the repo,
+    not a username.)
+  - Push: 443a15a..7240048  main -> main
+  - Remote: origin      git@github-ajit:james062ad/ajit-lpp-engine.git (fetch)
+  - HEAD: 7240048 Add CLAUDE.md session regime (sha256 1b46f19c…cefbb); five 
+    gates pass on the citadel account 12 Sep 2026
+  - ## main...origin/main — in sync, not ahead
+  - Dirty tree: 0
+
+  STOP.
+
+✻ Crunched for 24s · done 11:46 am
+
+❯ Model: claude-opus-5                                                          
+                                                                                
+  Write the content between ===BEGIN=== and ===END=== to a new file             
+  DECISIONS.md at the repo root, byte for byte, one newline after the last      
+  line. Check sha256                                                            
+  bdae202e58ce040c05861f6bc38db028aa0f29ae35e9f4d9902cd8646267f22e, 41 lines;   
+  STOP if different. Then run exactly:                                          
+  git add -N DECISIONS.md                                                       
+  git commit -m "DECISIONS A-001-A-005: rescue and regime, gates re-proven,     
+  fixture data on the drive, relationship to Citadel, stray OM export removed"  
+  -- DECISIONS.md                                                               
+  git push origin main                                                          
+  git log -1 --format='%h %s' ; git status -sb | head -1 ; git status           
+  --porcelain | wc -l                                                           
+  STOP.                                                                         
+                                                                                
+  ===BEGIN===                                                                   
+  DECISIONS — AJIT LPP Engine                                                   
+                                                                                
+  Pen-holder writes; each entry states what, scope, reason, who/when, how to    
+  reopen.                                                                       
+  Open design questions live in DECISIONS_OPEN.md (D-01..D-04, July 2026) and   
+  are not                                                                       
+  superseded by this file.                                                      
+                                                                                
+  A-001 — Rescued from single-copy, regime installed (12 Sep 2026)              
+                                                                                
+  Found on the MacBook only, no remote, last commit 22 July, with two           
+  uncommitted files —                                                           
+  AUTHORITIES_VERIFIED.md and VERIFICATION_PROOFS.md, carrying the              
+  practitioner's primary                                                        
+  text for the improper-purpose rule (ATO reproduction unpaginated, so no       
+  pinpoint claimed).                                                            
+  Committed 443a15a and pushed to the new private repo                          
+  james062ad/ajit-lpp-engine; clone at                                          
+  ~/AJIT-LPP-Engine in the iMac citadel account via repo-scoped deploy key      
+  github-ajit.                                                                  
+  CLAUDE.md committed 7240048 (sha256 1b46f19c…cefbb). Reopen by editing in a   
+  pen session.                                                                  
+                                                                                
+  A-002 — Gates re-proven on a new machine (12 Sep 2026)                        
+                                                                                
+  All five gates pass in the citadel clone: determinism (three-run              
+  byte-identical), rule                                                         
+  behaviour, golden set, synthetic taxonomy, NAT 75447 round-trip with its four 
+  refusals                                                                      
+  (unresolved HITL, unnamed claimant, unconfirmed fields, default claimant).    
+  Environmental                                                                 
+  note: the engine is standard library only, but the NAT 75447 export needs     
+  openpyxl, so a                                                                
+  .venv exists for that alone. First run without it failed at gate 5 — not a    
+  defect.                                                                       
+                                                                                
+  A-003 — Fixture data off the repo, on the drive (12 Sep 2026)                 
+                                                                                
+  om_privilege_project (Chevron-TP and Hart-Scheme fixture mailboxes, output,   
+  scripts),                                                                     
+  reference and lpp_solution — 7112 files, 183 MB, all git-ignored — moved to   
+  /Volumes/Citadel Data/lpp_data/ with manifest LPP_DATA.sha256, verified       
+  7112/7112 on                                                                  
+  arrival, and copied to My 750 GB/Citadel-Backup (verified again). No mailbox, 
+  matter or                                                                     
+  client document is ever committed to this repo.                               
+                                                                                
+  A-004 — Relationship to Citadel (12 Sep 2026)                                 
+                                                                                
+  Under Citadel Public Record D-006, this engine is Geoffrey's process-layer    
+  IP. Intended                                                                  
+  role: the deterministic disposition layer behind a human-ruled privilege      
+  review surface on                                                             
+  the Citadel shell (forensic ingestion door + privilege skill + fixture        
+  matter). The 9 Sep                                                            
+  2026 ruling that the AJIT LPP Engine is not proceeding as a standalone        
+  product stands and                                                            
+  is NOT reopened here; a ruling reopening it as a review surface is owed       
+  before any demo is                                                            
+  built.                                                                        
+                                                                                
+  A-005 — Stray file removed (12 Sep 2026)                                      
+                                                                                
+  REQ-8B3F2D91_session_export.txt (an OM analyst request, Martin Lawrence,      
+  buyback sweep)                                                                
+  sat at this repo's root — a mis-paste from a July session. The request's own  
+  capture folder                                                                
+  holds the full 207 KB export (23 Jul); the stray was a 54 KB partial from a   
+  different                                                                     
+  session. Deleted after both were hashed and compared. No OM material remains  
+  in this tree.                                                                 
+  ===END===                                                                     
+
+  Listed 1 directory (ctrl+o to expand)
+
+⏺ Write(DECISIONS.md)
+  ⎿  Wrote 41 lines to DECISIONS.md
+       1 # DECISIONS — AJIT LPP Engine
+       3 Pen-holder writes; each entry states what, scope, reason, who/wh
+         en, how to reopen.
+         y 2026) and are not
+       6 
+       7 ## A-001 — Rescued from single-copy, regime installed (12 Sep 20
+       8 Found on the MacBook only, no remote, last commit 22 July, with 
+         two uncommitted files —
+          practitioner's primary
+         , so no pinpoint claimed).
+     … +57 lines (ctrl+o to expand)
+
+  Ran 1 shell command (ctrl+o to expand)
+
+⏺ Hash matches (bdae202e…f22e), 41 lines, single trailing newline. Proceeding.
+
+  Committed 1fae87c, pushed to main, ran 1 shell command (ctrl+o to expand)
+
+⏺ Written, committed, pushed.
+
+  - sha256 bdae202e58ce040c05861f6bc38db028aa0f29ae35e9f4d9902cd8646267f22e —
+    matches, 41 lines, one trailing newline.
+  - Push: 7240048..1fae87c  main -> main
+  - HEAD: 1fae87c DECISIONS A-001-A-005: rescue and regime, gates re-proven, 
+    fixture data on the drive, relationship to Citadel, stray OM export removed
+  - ## main...origin/main — in sync
+  - Dirty tree: 0
+
+  STOP.
+
+✻ Crunched for 39s · done 11:51 am
+
+※ recap: Goal: install the AJIT LPP Engine session regime in the iMac repo. CLAUDE.md and DECISIONS.md are written, verified by hash, committed, and pushed over the new SSH deploy key; tree clean and in sync. Next: tell me what to do. (disable recaps in /config)
