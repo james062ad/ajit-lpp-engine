@@ -35,8 +35,14 @@ Watch-points:
 > Rule text (verbatim from the engine):
 > "A recorded finding that the communication was made in furtherance of an illegal or improper purpose."
 
-Court (at [____], ______ J/JJ) [PRACTITIONER]:
-> "____________________________________________"
+Court (Gibbs CJ, judgment; ATO reproduction unpaginated — no CLR page markers displayed) [PRACTITIONER]:
+> "The privilege, which arises only because the public interest requires it, does not exist when it is seen that it would be contrary to a higher public interest to give effect to it."
+>
+> Murphy J. said, at p 159, that "it would be curious if the child's welfare were not paramount over legal professional privilege in circumstances such as those in this case". The case is authority for the view that legal professional privilege will be denied to a communication which is made for the purpose of frustrating the processes of the law itself, even though no crime or fraud is contemplated.
+>
+> In my opinion the present case comes within the principle which forms the basis of the rule that denies privilege to communications made to further an illegal purpose. It would be contrary to the public interest which the privilege is designed to secure - the better administration of justice - to allow it to be used to protect communications made to further a deliberate abuse of statutory power and by that abuse to prevent others from exercising their rights under the law. It would shake public confidence in the law if there was reasonable ground for believing that a regulation had been enacted for an unauthorized purpose and with the intent of frustrating legitimate claims, and yet the law protected from disclosure the communications made to seek and give advice in carrying out that purpose. It is unnecessary to consider whether the decision in Crescent Farm Sports v. Sterling Offices was too restrictive, or whether the view expressed in the modern United States cases that the principle extends to communications made for the purpose of committing a tort is too wide. The law strikes a balance between securing proper representation by encouraging full disclosure on the one hand, and requiring the production of all relevant evidence on the other, but the balance more readily inclines in favour of disclosure where privilege from disclosure might conceal an abuse of delegated powers to enact legislation, and thus obstruct a proper challenge to the validity of part of the law itself. The basis of the privilege is not endangered if it is held that it does not protect communications made by a public authority for the purpose of obtaining advice or assistance to exceed its statutory powers.
+>
+> The privilege is of course not displaced by making a mere charge of crime or fraud or, as in the present case, a charge that powers have been exercised for an ulterior purpose. This was made clear in Bullivant v. Attorney-General for Victoria, at pp 201, 203, 205, and in O'Rourke v. Darbishire [1920] AC 581 , at pp 604, 613-614, 622-623, 632-633. As Viscount Finlay said in the latter case, at p 604, "there must be something to give colour to the charge". His Lordship continued:"
 
 Fit [PRACTITIONER]: ____________  — ____________________________________
 
